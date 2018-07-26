@@ -1,0 +1,51 @@
+﻿@model AlbumApplication.Models.ViewModels.AlbumViewModel
+
+<div>
+    @using (Html.BeginForm("Create", "Album", FormMethod.Post))
+    {
+        <div class="form-row mt-5">
+            <div class="col-md-12 form-group">
+                <label for="Name" class="col-form-label">Name</label>
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                <div class="invalid-feedback" style="display: inline">
+                    @Html.ValidationMessageFor(m => m.Name)
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 form-group z-front">
+            <label for="Artist" class="col-form-label">Artist</label>
+            <select class="chosen form-control" id="SelectedArtistId" name="SelectedArtistId">
+                <option value="@Guid.Empty">-</option>
+                @foreach (var item in Model.ArtistList)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-row mt-5">
+            <div class="col-md-12 form-group">
+                <label for="NumberOfTracks" class="col-form-label">Number of tracks</label>
+                @Html.TextBoxFor(m => m.NumberOfTracks, new { @class = "form-control" })
+                <div class="invalid-feedback" style="display: inline">
+                    @Html.ValidationMessageFor(m => m.NumberOfTracks)
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 form-group">
+            <label for="ReleaseDate" class="col-form-label">Release date</label>
+            <input id="ReleaseDate" name="ReleaseDate" type="Date" class="form-control md-has-value" />
+            <div class="invalid-feedback" style="display: inline">
+                @Html.ValidationMessageFor(m => m.ReleaseDate)
+            </div>
+        </div>
+
+        <div class="row mt-5 d-flex justify-content-center">
+            <div class="col-6 col-md-3">
+                <button type="submit" class="btn bg-deep-purple text-white btn-block">Save</button>
+            </div>
+        </div>
+    }
+</div>

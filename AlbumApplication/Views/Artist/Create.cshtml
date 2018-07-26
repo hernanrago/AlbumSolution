@@ -1,0 +1,23 @@
+﻿@model AlbumApplication.Models.ViewModels.ArtistViewModel
+
+<div>
+    @using (Html.BeginForm("Create", "Artist", FormMethod.Post))
+    {
+        <div class="form-row mt-5">
+            <div class="col-md-12 form-group">
+                <label for="Name" class="col-form-label">Name</label>
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control"})
+                <div class="invalid-feedback" style="display: inline">
+                    @Html.ValidationMessageFor(m => m.Name)
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5 d-flex justify-content-center">
+            <div class="col-6 col-md-3">
+                <button type="submit" class="btn bg-deep-purple text-white btn-block">Save</button>
+            </div>
+        </div>
+    }
+
+</div>

@@ -1,0 +1,72 @@
+﻿@model List<AlbumApplication.Models.ViewModels.ArtistGridViewModel>
+
+<div class="page-content-card">
+    <div class="page-content p-6">
+        <div class="row mt-5 d-flex justify-content-center">
+            <div class="col-6 col-md-3">
+                <a type="button" class="btn bg-deep-purple text-white btn-block" href="@Url.Action("Create","Artist")">Create artist</a>
+            </div>
+        </div>
+
+        <table id="bordes-data-table" class="table">
+            <tr>
+                <th>Name</th>
+                <th>Command</th>
+            </tr>
+            @foreach (var artist in Model)
+            {
+                <tr>
+                    <td>@artist.Name</td>
+                    <td>
+                        <a class="btn" href="@Url.Action("Edit","Artist", new { id = artist.Id })">Edit</a>
+                        <a class="btn btn-danger btnEliminar" id="@artist.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/assets/Binit/sweet-alert/sweetalert.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(".btnEliminar").click(function (event) {
+            var id = event.target.id;
+
+            swal({
+                title: "Do you want to delete the person?",
+                text: "You won't can recover it.",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+
+                        var request = $.ajax({
+                            url: "/Artist/Delete",
+                            type: "POST",
+                            data: { id: id },
+                        });
+
+                        request.done(function (msg) {
+                            if (msg.Result == "OK") {
+                                window.location.href = '@Url.Action("Grid", "Artist")';
+                            }
+                            else {
+                                swal(msg.Mensaje)
+                            }
+                        });
+
+                        request.fail(function (jqXHR, textStatus) {
+                            swal("Error!", "Unexpected error!", "danger");
+                        });
+                    } else {
+                    }
+                });
+        });
+    </script>
+}
